@@ -1,5 +1,3 @@
-// This connects to my database
-
 const mysql = require('mysql2')
 
 const pool = mysql.createPool({
@@ -10,4 +8,5 @@ const pool = mysql.createPool({
     database: 'perfume_db'
 })
 
+// This connects to my database
 module.exports = pool

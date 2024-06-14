@@ -1,24 +1,30 @@
-//The Router points to all the PAGES
-
 const express = require('express')
 const router = express.Router()
 
-const port = process.env.port || 3005
+const Port = process.env.PORT || 3005
 
-const tables = ['prefume', 'designer','scent']
+// const tables = ['prefume', 'designer','scent']
 
 // root route => localhost:3005/api
 router.get('/', (req, res)=> {
     res.json({
-        'Perfume': `http://localhost:${port}/api/perfume`,
-        'Designer': `http://localhost:${port}/api/designer`,
-        'Scent': `http://localhost:${port}/api/scent`,
+        'Perfume': `http://localhost:${PORT}/api/perfume`,
+        'Designer': `http://localhost:${PORT}/api/designer`,
+        'Scent': `http://localhost:${PORT}/api/scent`
     })
 })
 
+router.use('/api/perfume', require('./api/perfumeRoutes'))
+router.use('/api/design', require('./api/designerRoutes'))
+router.use('/api/scent', require('./api/scentRoutes'))
 
-tables.forEach(table => {
-    router.use(`/api/${table}`, require(`./api/${table}Routes`))
+
+router.get('*', (req, res)=> {
+    if (req.url === 'favicon.ico'){
+        res.end()
+    } else {
+        res.send('<h1>404 ERROR: Page does not exist<h1>')
+    }
 })
 
 
