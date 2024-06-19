@@ -7,5 +7,5 @@ const scentDao = {...daoCommon, ...require('./api/scentDao')}
 module.exports = {
     perfumeDao,
     designerDao,
-    scentDao,
+    scentDao
 }

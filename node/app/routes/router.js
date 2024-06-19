@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const Port = process.env.PORT || 3005
+const PORT = process.env.PORT || 3005
 
-// const tables = ['prefume', 'designer','scent']
+// const tables = ['perfume', 'designer','scent']
 
 // root route => localhost:3005/api
 router.get('/', (req, res)=> {

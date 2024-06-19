@@ -7,23 +7,8 @@ const perfumeDao ={
 
     findAll: (res, table)=> {
         con.execute(
-            `SELECT p.perfume_id, p.perfume_name, p.designer_id 
-                CASE 
-                    WHEN d.designer is NULL THEN ''
-                    ELSE d.designer
-                    END designer, 
-                CASE 
-                    WHEN d.designer_name is NULL THEN ''
-                    ELSE d.designer_name
-                    END designer_name, 
-                p.launched, 
-                perfume_size, 
-                perfume_type,
-                p.perfume_picture
-                FROM ${table} p
-                LEFT OUTER JOIN designer d USING (designer_id)
-                LEFT OUTER JOIN scent s USING (scent_id)
-                JOIN perfume p USING (perfume_id);`,
+            `SELECT * FROM perfume
+                JOIN perfume_to_scent USING (perfume_id)`,
                 (error, rows)=> {
                     if (!error) {
                         if (rows.length === 1) {
@@ -41,23 +26,9 @@ const perfumeDao ={
     findById: (res, table, id)=> {
 
     con.execute(
-        `SELECT p.perfume_id, p.perfume_name, p.designer_id,
-            CASE 
-                    WHEN d.designer is NULL THEN ''
-                    ELSE d.designer
-                    END designer, 
-                CASE 
-                    WHEN d.designer_name is NULL THEN ''
-                    ELSE d.designer_name
-                    END designer_name, 
-                p.launched, 
-                perfume_size, 
-                perfume_type,
-                p.perfume_picture
-                FROM ${table} p
-                LEFT OUTER JOIN designer d USING (designer_id)
-                LEFT OUTER JOIN scent s USING (scent_id)
-                JOIN perfume p USING (perfume_id) WHERE ${table}_id = ${id};`,
+        `SELECT p.perfume_id, p.perfume_name, p.designer_id,  
+                FROM perfume p
+                JOIN perfume_to_scent ps USING (perfume_id);`,
                 (error, rows)=> {
                     if (!error) {
                         if (rows.length === 1) {
@@ -76,23 +47,10 @@ const perfumeDao ={
     sort: (req, res, table)=> {
    
     con.execute(
-       `SELECT p.perfume_id, p.perfume_name, p.designer_id,
-            CASE 
-                    WHEN d.designer is NULL THEN ''
-                    ELSE d.designer
-                    END designer, 
-                CASE 
-                    WHEN d.designer_name is NULL THEN ''
-                    ELSE d.designer_name
-                    END designer_name, 
-                p.launched, 
-                perfume_size, 
-                perfume_type,
-                p.perfume_picture
-                FROM ${table} p
+       `SELECT * FROM perfume p
                 LEFT OUTER JOIN designer d USING (designer_id)
-                LEFT OUTER JOIN scent s USING (scent_id)
-                JOIN perfume p USING (perfume_id) ORDER BY title;`,
+                LEFT OUTER JOIN perfume_to_scent ps USING (perfume_id)
+                JOIN perfume p USING (perfume_id) ORDER BY prefume_name;`,
                 (error, rows)=> {
                     if (!error) {
                         if (rows.length === 1) {
